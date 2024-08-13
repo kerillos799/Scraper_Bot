@@ -113,6 +113,25 @@ class parse (webdriver.Chrome):
                     dn = 1
                     tele.send(mes = f"New question available with the subject of: {subj.text}")
                 cur.add(id.get_attribute("id"))
+            # look for hot questions
+            questions = self.find_elements(
+                By.CSS_SELECTOR,
+                'div[class="question-list-entry hot-urgent-question"]'
+            )
+            for q in questions:
+                qu.clear()
+                subj = q.find_element(
+                    By.CSS_SELECTOR,
+                    'div[class="upper-line category-name"]'
+                )
+                id = q.find_element(
+                    By.CSS_SELECTOR,
+                    'div[class="__react_component_tooltip place-top type-dark"]'
+                )
+                if id.get_attribute("id") not in const.initial:
+                    dn = 1
+                    tele.send(mes = f"ALERT!!! New HOT question available with the subject of: {subj.text}")
+                cur.add(id.get_attribute("id"))
             if dn == 0:
                 tele.upd()
             const.initial = cur
