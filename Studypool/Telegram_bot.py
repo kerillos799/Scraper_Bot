@@ -6,13 +6,12 @@ from telebot.types import Update
 telegram_bot = telebot.TeleBot(const.API)
 
 def run_bot():
+    const.last_upd_id = None
     telegram_bot = telebot.TeleBot(const.API)
     updates = telegram_bot.get_updates()
     for up in updates:
         ch_id = up.message.chat.id
-        if ch_id not in const.waiting_pass_users:
-            const.waiting_pass_users.add(ch_id)
-            telegram_bot.send_message(ch_id, "Iam currently active, please send the password to get the data. :)")
+        const.waiting_pass_users.add(ch_id)
         const.last_upd_id = up.update_id + 1
 
 def upd():
@@ -21,9 +20,21 @@ def upd():
         txt = up.message.text
         if txt == "/start":
             welcome(message = up.message)
+        elif txt == "/help":
+            help(up.message)
         else:
             handler(message = up.message)
         const.last_upd_id = up.update_id + 1
+
+
+
+@telegram_bot.message_handler(commands = ['help'])
+def help(message):
+    telegram_bot.reply_to(
+        message, 
+        "Hello there, I am a Studypool helper develepod by Kerillos. \n I get data about newly posted jobs on Studypool and let you know immediately. type or click /start to begin. :)"
+    )
+
 
 
 @telegram_bot.message_handler(commands = ['start'])
@@ -34,6 +45,8 @@ def welcome(message):
     else:
         const.waiting_pass_users.add(message.chat.id)
         telegram_bot.send_message(message.chat.id, "Please send password to get authenticated")
+
+
 
 @telegram_bot.message_handler()
 def handler(message):
