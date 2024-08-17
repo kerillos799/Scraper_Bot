@@ -7,7 +7,7 @@ from Studypool import Telegram_bot as tele
 
 
 class parse (webdriver.Chrome):
-    def __init__(self, driver_path = r"C:\Program Files\Google\Chrome\Application", teardown = False):
+    def __init__(self, driver_path = const.driver_path, teardown = False):
         self.teardown = teardown
         self.driver_path = driver_path
         os.environ['PATH'] += self.driver_path
@@ -137,6 +137,14 @@ class parse (webdriver.Chrome):
             const.initial = cur
         except:
             tele.upd()
-            
+    
 
-        
+    def check_notifications(self):
+        span = self.find_element(
+            By.ID,
+            "n2"
+        )
+        val = span.get_attribute("innerHTML")
+        if int(val) > const.cur_noti:
+            tele.send(mes = f"ALERT!!!! you have new {int(val) - const.cur_noti} notification(s).")
+        const.cur_noti = int(val)

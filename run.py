@@ -10,13 +10,13 @@ from Studypool import Telegram_bot as tele
 with parse() as bot:
     tele.run_bot()
     print("bot ran.....")
-    tele.send(mes="Openning Studypool....")
+    tele.send(mes="Opening Studypool....")
     print("message sent")
     bot.frst_page()
     time.sleep(3)
     bot.open_popup()
     time.sleep(3)
-    tele.send(mes= "Loging in...")
+    tele.send(mes= "Logging in...")
     bot.login()
     time.sleep(3)
     bot.details(mail = const.gmail , password = const.pas)
@@ -33,6 +33,7 @@ with parse() as bot:
     tele.send(mes= "I am up and running. :)")
     while (1):
         bot.access_ques()
+        bot.check_notifications()
         time.sleep(10)
 
 
