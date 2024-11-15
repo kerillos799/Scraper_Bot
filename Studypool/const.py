@@ -1,6 +1,7 @@
 Base_url = "https://www.studypool.com/"
+import hashlib
 # driver path
-driver_path = r""
+driver_path = r"C:\Program Files\Google\Chrome\Application"
 
 #Your mail and Pass
 gmail = ""
@@ -12,6 +13,8 @@ Username = "@"
 
 #bot Pass
 bot_password = ""
+hashed_pass = hashlib.md5(bot_password.encode())
+hashed_pass = hashed_pass.digest()
 
 initial = set()
 active_users = set()

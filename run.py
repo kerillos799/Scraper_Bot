@@ -11,7 +11,6 @@ with parse() as bot:
     tele.run_bot()
     print("bot ran.....")
     tele.send(mes="Opening Studypool....")
-    print("message sent")
     bot.frst_page()
     time.sleep(3)
     bot.open_popup()

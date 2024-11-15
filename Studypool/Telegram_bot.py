@@ -1,6 +1,7 @@
 from Studypool import const
 import telebot
 from telebot.types import Update
+import hashlib
 
 
 telegram_bot = telebot.TeleBot(const.API)
@@ -54,8 +55,11 @@ def handler(message):
         telegram_bot.send_message(message.chat.id , "I am sorry, I am not programmed to reply to messages.")
     elif message.chat.id in const.waiting_pass_users:
         txt = message.text
+        txt = str(txt)
         ch_id = message.chat.id
-        if txt == const.bot_password:
+        hashed = hashlib.md5(txt.encode())
+        hashed = hashed.digest()
+        if hashed == const.hashed_pass:
             telegram_bot.send_message(ch_id, "Correct Password. Welcome on board, I am currently active. :)")
             const.active_users.add(ch_id)
             const.waiting_pass_users.remove(ch_id)
